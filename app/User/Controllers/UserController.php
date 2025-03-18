@@ -5,7 +5,6 @@ namespace App\User\Controllers;
 use App\Shared\Controllers\Controller;
 use App\Shared\Requests\GetAllRequest;
 use App\Shared\Resources\GetAllCollection;
-use App\Shared\Services\FileService;
 use App\Shared\Services\SharedService;
 use App\User\Models\User;
 use App\User\Requests\UserCreateRequest;
