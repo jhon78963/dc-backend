@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 
-class BrandCreateRequest extends FormRequest
+class BrandUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,12 +31,12 @@ class BrandCreateRequest extends FormRequest
                 'max:120',
                 Rule::unique('brands', 'name')->where(function ($query) {
                     return $query->where('is_deleted', false);
-                })
+                })->ignore($this->route('brand'))
             ]
         ];
     }
 
-    /**
+      /**
      * Get custom validation messages.
      *
      * @return array
@@ -65,5 +65,4 @@ class BrandCreateRequest extends FormRequest
             'errors' => $validator->errors()
         ], 422));
     }
-
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Product\Models;
+namespace App\Category\Models;
 
-use App\Role\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Category extends Model
 {
     use HasFactory;
 
@@ -18,20 +17,9 @@ class Product extends Model
      */
     protected $fillable = [
         'id',
-        'brand_id',               
-        'category_id',          
-        'measurement_unit_id',    
-        'measurement_unit_name', 
-        'name',                   
-        'barcode',               
-        //'internal_code',      
-        'barcode_path',          
-        'sale_price',             
-        'purchase_price',       
-        'minimum_stock',       
+        'name'                          
     ];
     
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -62,7 +50,7 @@ class Product extends Model
     protected function casts(): array
     {
         return [
-            // 'email_verified_at' => 'datetime',
+            //'email_verified_at' => 'datetime',
             // 'password'          => 'hashed',
         ];
     }

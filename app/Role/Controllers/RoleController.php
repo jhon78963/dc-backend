@@ -12,7 +12,7 @@ use App\Shared\Requests\GetAllRequest;
 use App\Shared\Resources\GetAllCollection;
 use App\Shared\Services\SharedService;
 use Illuminate\Http\JsonResponse;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {

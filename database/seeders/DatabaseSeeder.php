@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Role\Seeders\RoleSeeder;
+use App\MeasurementUnit\Seeders\MeasurementUnitSeeder;
 use App\User\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
@@ -16,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            MeasurementUnitSeeder::class
         ]);
     }
 }

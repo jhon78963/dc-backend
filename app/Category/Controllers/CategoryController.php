@@ -1,99 +1,96 @@
 <?php
 
-namespace App\Brand\Controllers;
+namespace App\Category\Controllers;
 
-use App\Brand\Models\Brand;
-use App\Product\Models\Product;
-use App\Brand\Requests\BrandCreateRequest;
-use App\Brand\Requests\BrandUpdateRequest;
-use App\Brand\Resources\BrandResource;
-use App\Brand\Services\BrandService;
+use App\Category\Models\Category;
+use App\Category\Requests\CategoryCreateRequest;
+use App\Category\Requests\CategoryUpdateRequest;
+use App\Category\Resources\CategoryResource;
+use App\Category\Services\CategoryService;
 use App\Shared\Controllers\Controller;
 use App\Shared\Requests\GetAllRequest;
 use App\Shared\Resources\GetAllCollection;
 use App\Shared\Services\SharedService;
-use App\User\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     protected SharedService $sharedService;
-    protected BrandService $brandService;
+    protected CategoryService $categoryService;
 
     public function __construct(
         SharedService $sharedService,
-        BrandService $brandService,
+        CategoryService $categoryService,
     ) {
-        $this->sharedService = $sharedService;
-        $this->brandService = $brandService;
+        $this->sharedService    = $sharedService;
+        $this->categoryService  = $categoryService;
     }
-    public function create(BrandCreateRequest $request): JsonResponse
+    public function create(CategoryCreateRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
          
-            $newBrand = $this->prepareNewBrandData(
+            $newCategory = $this->prepareNewCategoryData(
                 $request->validated(),
             );
             
-            $this->brandService->create($newBrand);
+            $this->categoryService->create($newCategory);
 
             DB::commit();
-            return response()->json(['message' => 'Brand created.'], 201);
+            return response()->json(['message' => 'Category created.'], 201);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' =>  $e->getMessage()]);
         }
     }
 
-    public function delete(Brand $brand): JsonResponse {
+    public function delete(Category $Category): JsonResponse {
         DB::beginTransaction();
         try {
-            $brandValidated = $this->brandService->validate($brand, 'Brand');
-            $this->brandService->delete($brandValidated);
+            $categoryValidated = $this->categoryService->validate($Category, 'Category');
+            $this->categoryService->delete($categoryValidated);
             DB::commit();
-            return response()->json(['message' => 'Brand deleted.']);
+            return response()->json(['message' => 'Category deleted.']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' =>  $e->getMessage()]);
         }
     }
 
-    public function get(Brand $brand): JsonResponse
+    public function get(Category $category): JsonResponse
     {
-        $brandValidated = $this->brandService->validate($brand, 'Brand');
-        return response()->json(new BrandResource($brandValidated));
+        $categoryValidated = $this->categoryService->validate($category, 'Category');
+        return response()->json(new CategoryResource($categoryValidated));
     }
 
     public function getAll(GetAllRequest $request): JsonResponse
     {
         $query = $this->sharedService->query(
             $request,
-            'Brand',
-            'Brand',
+            'Category',
+            'Category',
             'name'
         );
 
         return response()->json(new GetAllCollection(
-            BrandResource::collection(resource: $query['collection']),
+            CategoryResource::collection(resource: $query['collection']),
             $query['total'],
             $query['pages'],
         ));
     }
 
-    public function update(BrandUpdateRequest $request, Brand $brand): JsonResponse
+    public function update(CategoryUpdateRequest $request, Category $category): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $brandValidated = $this->brandService->validate($brand, 'Brand');
-            $editBrand      = $this->prepareNewBrandData(
+            $categoryValidated  = $this->categoryService->validate($category, 'Category');
+            $editCategory       = $this->prepareNewCategoryData(
                 $request->validated(),
             );
-            $this->brandService->update($brandValidated, $editBrand);
+            $this->categoryService->update($categoryValidated, $editCategory);
             DB::commit();
-            return response()->json(['message' => 'Brand updated.']);
+            return response()->json(['message' => 'Category updated.']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' =>  $e->getMessage()]);
@@ -125,14 +122,14 @@ class BrandController extends Controller
     }
     */
 
-    private function prepareNewBrandData(array $validatedData): array
+    private function prepareNewCategoryData(array $validatedData): array
     {
-        $brandData = array_merge(
+        $categoryData = array_merge(
             $validatedData,
             // [
             //     'password' => Hash::make('password'),
             // ],
         );
-        return $this->sharedService->convertCamelToSnake($brandData);
+        return $this->sharedService->convertCamelToSnake($categoryData);
     }
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Brand\Models;
+namespace App\MeasurementUnit\Models;
 
-use App\Role\Models\Role;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Brand extends Model
+class MeasurementUnit extends Model
 {
     use HasFactory;
 
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -18,9 +18,9 @@ class Brand extends Model
      */
     protected $fillable = [
         'id',
-        'name'                          
+        'name',
+        'symbol'
     ];
-    
 
     /**
      * The attributes that should be hidden for serialization.
@@ -37,29 +37,16 @@ class Brand extends Model
         'deletion_time',
     ];
 
+    public $timestamps = false;
+
     /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
      */
-    public $timestamps = false;
+   /* public $timestamps = false;
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            // 'email_verified_at' => 'datetime',
-            // 'password'          => 'hashed',
-        ];
-    }
-
-    /*
-    public function role(): BelongsTo {
-        return $this->belongsTo(Role::class);
-    }
-    */
+    public function users(): HasMany {
+        return $this->hasMany(User::class);
+    }*/
 }

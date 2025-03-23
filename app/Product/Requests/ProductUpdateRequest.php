@@ -7,7 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 
-class ProductCreateRequest extends FormRequest
+class ProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,7 +31,7 @@ class ProductCreateRequest extends FormRequest
                 'max:200',
                 Rule::unique('products', 'name')->where(function ($query) {
                     return $query->where('is_deleted', false);
-                })
+                })->ignore($this->route('product'))
             ],
             'categoryId' => [
                 'required',
@@ -110,5 +110,4 @@ class ProductCreateRequest extends FormRequest
             'errors' => $validator->errors()
         ], 422));
     }
-
 }

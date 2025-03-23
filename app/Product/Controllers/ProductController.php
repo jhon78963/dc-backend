@@ -2,15 +2,16 @@
 
 namespace App\Product\Controllers;
 
+use App\MeasurementUnit\Models\MeasurementUnit;
 use App\Product\Models\Product;
 use App\Product\Requests\ProductCreateRequest;
+use App\Product\Resources\ProductResource;
 use App\Product\Services\ProductService;
 use App\Shared\Controllers\Controller;
 use App\Shared\Requests\GetAllRequest;
 use App\Shared\Resources\GetAllCollection;
 use App\Shared\Services\SharedService;
-use App\User\Requests\UserUpdateRequest;
-use App\User\Resources\UserResource;
+use App\product\Requests\productUpdateRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -18,26 +19,26 @@ use Illuminate\Support\Facades\Hash;
 class ProductController extends Controller
 {
     protected SharedService $sharedService;
-    protected ProductService $producService;
+    protected ProductService $productService;
 
     public function __construct(
         SharedService $sharedService,
-        ProductService $producService,
+        ProductService $productService,
     ) {
         $this->sharedService = $sharedService;
-        $this->producService = $producService;
+        $this->productService = $productService;
     }
+
     public function create(ProductCreateRequest $request): JsonResponse
     {
         DB::beginTransaction();
         try {
          
-            
             $newProduct = $this->prepareNewProductData(
                 $request->validated(),
             );
             
-            $this->producService->create($newProduct);
+            $this->productService->create($newProduct);
 
             DB::commit();
             return response()->json(['message' => 'Product created.'], 201);
@@ -47,59 +48,59 @@ class ProductController extends Controller
         }
     }
 
-    public function delete(Product $user): JsonResponse {
+    public function delete(Product $product): JsonResponse {
         DB::beginTransaction();
         try {
-            $userValidated = $this->userService->validate($user, 'User');
-            $this->userService->delete($userValidated);
+            $productValidated = $this->productService->validate($product, 'Product');
+            $this->productService->delete($productValidated);
             DB::commit();
-            return response()->json(['message' => 'User deleted.']);
+            return response()->json(['message' => 'Product deleted.']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' =>  $e->getMessage()]);
         }
     }
 
-    public function get(User $user): JsonResponse
+    public function get(Product $product): JsonResponse
     {
-        $userValidated = $this->userService->validate($user, 'User');
-        return response()->json(new UserResource($userValidated));
+        $productValidated = $this->productService->validate($product, 'Product');
+        return response()->json(new ProductResource($productValidated));
     }
 
     public function getAll(GetAllRequest $request): JsonResponse
     {
         $query = $this->sharedService->query(
             $request,
-            'User',
-            'User',
+            'Product',
+            'Product',
             'name'
         );
 
         return response()->json(new GetAllCollection(
-            UserResource::collection(resource: $query['collection']),
+            ProductResource::collection(resource: $query['collection']),
             $query['total'],
             $query['pages'],
         ));
     }
 
-    public function update(UserUpdateRequest $request, User $user): JsonResponse
+    public function update(productUpdateRequest $request, product $product): JsonResponse
     {
         DB::beginTransaction();
         try {
-            $userValidated = $this->userService->validate($user, 'User');
-            $editUser = $this->prepareNewProductData(
+            $productValidated = $this->productService->validate($product, 'product');
+            $editProduct = $this->prepareNewProductData(
                 $request->validated(),
             );
-            $this->userService->update($userValidated, $editUser);
+            $this->productService->update($productValidated, $editProduct);
             DB::commit();
-            return response()->json(['message' => 'User updated.']);
+            return response()->json(['message' => 'Product updated.']);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['error' =>  $e->getMessage()]);
         }
     }
 
-    private function generateErrorResponse(bool $emailExists, bool $usernameExists): ?array
+    private function generateErrorResponse(bool $emailExists, bool $productnameExists): ?array
     {
         $errors = [];
 
@@ -107,14 +108,14 @@ class ProductController extends Controller
             $errors['email'] = 'El email ya existe.';
         }
 
-        if ($usernameExists) {
-            $errors['username'] = 'El username ya existe.';
+        if ($productnameExists) {
+            $errors['productname'] = 'El productname ya existe.';
         }
 
         if (!empty($errors)) {
             return [
                 'status' => 'error',
-                'message' => 'El email y/o username ya existen.',
+                'message' => 'El email y/o productname ya existen.',
                 'errors' => $errors
             ];
         }
@@ -126,10 +127,11 @@ class ProductController extends Controller
     {
         $productData = array_merge(
             $validatedData,
-            // [
-            //     'password' => Hash::make('password'),
-            // ],
+            [
+                'measurementUnitName' => MeasurementUnit::find($validatedData['measurementUnitId'])->name,
+            ],
         );
+
         return $this->sharedService->convertCamelToSnake($productData);
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Brand\Requests;
+namespace App\Category\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 
-class BrandCreateRequest extends FormRequest
+class CategoryUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,14 +29,14 @@ class BrandCreateRequest extends FormRequest
                 'required',
                 'string',
                 'max:120',
-                Rule::unique('brands', 'name')->where(function ($query) {
+                Rule::unique('categories', 'name')->where(function ($query) {
                     return $query->where('is_deleted', false);
-                })
+                })->ignore($this->route('category'))
             ]
         ];
     }
 
-    /**
+      /**
      * Get custom validation messages.
      *
      * @return array
@@ -44,10 +44,10 @@ class BrandCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
-        'name.required' => 'El nombre de la marca es obligatorio.',
-        'name.string'   => 'El nombre de la marca debe ser una cadena de texto.',
-        'name.max'      => 'El nombre de la marca no debe exceder los 120 caracteres.',
-        'name.unique'   => 'El nombre de la marca ya está en uso.',
+        'name.required' => 'El nombre de la categoría es obligatorio.',
+        'name.string'   => 'El nombre de la categoría debe ser una cadena de texto.',
+        'name.max'      => 'El nombre de la categoría no debe exceder los 120 caracteres.',
+        'name.unique'   => 'El nombre de la categoría ya está en uso.',
 
         ];
     }
@@ -65,5 +65,4 @@ class BrandCreateRequest extends FormRequest
             'errors' => $validator->errors()
         ], 422));
     }
-
 }

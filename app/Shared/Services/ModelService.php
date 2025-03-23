@@ -69,7 +69,7 @@ class ModelService
     {
         $this->setUpdateAuditFields($model);
         $model->fill($data);
-        $model->save();
+        $model->update();
         return $model;
     }
 

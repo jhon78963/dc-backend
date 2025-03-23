@@ -20,16 +20,17 @@ class ProductService
         $this->modelService->create(new Product(), $newProduct);
     }
 
-    public function delete(User $user): void
+    public function delete(Product $product): void
     {
-        $this->modelService->delete($user);
+        $this->modelService->delete($product);
     }
 
-    public function update(User $user, array $editUser): void
+    public function update(Product $product, array $editProduct): void
     {
-        $this->modelService->update($user, $editUser);
+        $this->modelService->update($product, $editProduct);
     }
 
+    /*
     public function checkUser(string $email, string $username): ?array
     {
         $emailExists = $this->userExistsByEmail($email);
@@ -50,9 +51,10 @@ class ProductService
             ->where('is_deleted', false)
             ->exists();
     }
+    */
 
-    public function validate(User $user, string $modelName): User
+    public function validate(Product $product, string $modelName): Product
     {
-        return $this->modelService->validate($user, $modelName);
+        return $this->modelService->validate($product, $modelName);
     }
 }

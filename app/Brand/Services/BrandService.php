@@ -20,39 +20,32 @@ class BrandService
         $this->modelService->create(new Brand(), $newBrand);
     }
 
-    public function delete(User $user): void
+    public function delete(Brand $brand): void
     {
-        $this->modelService->delete($user);
+        $this->modelService->delete($brand);
     }
 
-    public function update(User $user, array $editUser): void
+    public function update(Brand $brand, array $editBrand): void
     {
-        $this->modelService->update($user, $editUser);
+        $this->modelService->update($brand, $editBrand);
     }
 
-    public function checkUser(string $email, string $username): ?array
+    public function checkBrand( string $name): ?array
     {
-        $emailExists = $this->userExistsByEmail($email);
-        $usernameExists = $this->userExistsByUsername($username);
-        return [$emailExists, $usernameExists];
+        $nameExists = $this->brandExistsByName($name);
+        
+        return [$nameExists];
     }
 
-    public function userExistsByEmail(string $email): bool
+    public function brandExistsByName(string $name): bool
     {
-        return User::where('email', $email)
+        return Brand::where('name', $name)
             ->where('is_deleted', false)
             ->exists();
     }
 
-    public function userExistsByUsername(string $username): bool
+    public function validate(Brand $brand, string $modelName): Brand
     {
-        return User::where('username', $username)
-            ->where('is_deleted', false)
-            ->exists();
-    }
-
-    public function validate(User $user, string $modelName): User
-    {
-        return $this->modelService->validate($user, $modelName);
+        return $this->modelService->validate($brand, $modelName);
     }
 }

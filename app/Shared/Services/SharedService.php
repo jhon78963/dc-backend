@@ -24,6 +24,10 @@ class SharedService {
         });
     }
 
+    public function convertToUppercase(string $data){
+        return mb_strtoupper($data, 'UTF-8');
+    }
+
     public function dateFormat($date) {
         if ($date === null) {
             return null;
@@ -39,8 +43,8 @@ class SharedService {
         string $modelName,
         string $columnSearch = null,
     ): array {
-        $limit = $request->query('limit', $this->limit);
-        $page = $request->query('page', $this->page);
+        $limit  = $request->query('limit', $this->limit);
+        $page   = $request->query('page', $this->page);
         $search = $request->query('search', $this->search);
 
         $modelClass = "App\\$entityName\\Models\\$modelName";
