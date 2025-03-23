@@ -36,11 +36,27 @@ class BrandCreateRequest extends FormRequest
         ];
     }
 
+      /**
+     * Get custom validation messages.
+     *
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+        'name.required' => 'El nombre de la marca es obligatorio.',
+        'name.string'   => 'El nombre de la marca debe ser una cadena de texto.',
+        'name.max'      => 'El nombre de la marca no debe exceder los 120 caracteres.',
+        'name.unique'   => 'El nombre de la marca ya está en uso.',
+
+        ];
+    }
+
     protected function failedValidation(Validator $validator)
-{
-    throw new ValidationException($validator, response()->json([
-        'errors' => $validator->errors()
-    ], 422));
-}
+    {
+        throw new ValidationException($validator, response()->json([
+            'errors' => $validator->errors()
+        ], 422));
+    }
 
 }
