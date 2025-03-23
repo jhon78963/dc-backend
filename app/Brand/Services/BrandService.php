@@ -15,9 +15,9 @@ class BrandService
         $this->modelService = $modelService;
     }
 
-    public function create(array $newProduct): void
+    public function create(array $newBrand): void
     {
-        $this->modelService->create(new Brand(), $newProduct);
+        $this->modelService->create(new Brand(), $newBrand);
     }
 
     public function delete(User $user): void
