@@ -28,7 +28,7 @@ class ProductUpdateRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:200',
+                'max:120',
                 Rule::unique('products', 'name')->where(function ($query) {
                     return $query->where('is_deleted', false);
                 })->ignore($this->route('product'))
