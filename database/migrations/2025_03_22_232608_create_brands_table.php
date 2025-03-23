@@ -12,8 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->id();
+            $table->string('name',120);
+
             $table->datetime('creation_time')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('creator_user_id')->nullable();
             $table->datetime('last_modification_time')->nullable();
@@ -21,7 +23,8 @@ return new class extends Migration
             $table->boolean('is_deleted')->default(false);
             $table->integer('deleter_user_id')->nullable();
             $table->datetime('deletion_time')->nullable();
-            $table->string('name', 25);
+
+            $table->timestamps();
         });
     }
 
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::dropIfExists('brands');
     }
 };
