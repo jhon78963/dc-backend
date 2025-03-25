@@ -21,9 +21,9 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Info(
- *     title="Título de tu API",
+ *     title="DC API",
  *     version="1.0.0",
- *     description="Descripción de la API"
+ *     description="api documentation"
  * )
  *
  * @OA\Server(
