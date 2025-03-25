@@ -21,16 +21,23 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Info(
- *     title="DC API",
+ *     title="API DC",
  *     version="1.0.0",
- *     description="api documentation"
+ *     description="Endpoints"
  * )
  *
  * @OA\Server(
  *     url="http://127.0.0.1:8000",
  *     description="Servidor local"
  * )
+ *
+ *  @OA\Tag(
+ *     name="Marcas",
+ *     description="Endpoints relacionados con marcas"
+ * )
  */
+
+
 class BrandController extends Controller
 {
     protected SharedService $sharedService;
@@ -144,7 +151,7 @@ class BrandController extends Controller
             $this->brandService->delete($brandValidated);
             DB::commit();
             return response()->json(['message' => 'Brand deleted.'],200);
-        } catch (ModelNotFoundException $e) { 
+        } catch (ModelNotFoundException $e) {
             DB::rollback();
             return response()->json(['error' => $e->getMessage()], 404);
         }catch (\Exception $e) {

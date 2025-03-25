@@ -162,7 +162,7 @@ class CategoryController extends Controller
     }
 
 
-    /**
+/**
  * @OA\Get(
  *     path="/api/categories/{id}",
  *     summary="Obtener una categoría",
@@ -188,6 +188,13 @@ class CategoryController extends Controller
  *         @OA\JsonContent(
  *             @OA\Property(property="error", type="string", example="Categoría no encontrada.")
  *         )
+ *     ),
+*      @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="error", type="string", example="Ocurrió un error inesperado.")
+ *         )
  *     )
  * )
  */
@@ -205,7 +212,7 @@ class CategoryController extends Controller
 
 
 
-    /**
+/**
  * @OA\Get(
  *     path="/api/categories",
  *     summary="Obtener todas las categorías",
