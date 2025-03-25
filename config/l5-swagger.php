@@ -51,12 +51,6 @@ return [
                     base_path('app/Category/Controllers'),
                     base_path('app/Category/Resources'),
 
-                    base_path('app/MeasurementUnit/Controllers'),
-                    base_path('app/MeasurementUnit/Resources'),
-
-                    base_path('app/Product/Controllers'),
-                    base_path('app/Product/Resources'),
-
                 ],
             ],
         ],

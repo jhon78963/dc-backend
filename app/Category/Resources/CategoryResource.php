@@ -12,8 +12,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     title="Category Resource",
  *     description="Estructura de datos de una categoría",
  *     type="object",
- *     @OA\Property(property="id", type="integer", example=1, description="ID único de la categoría", nullable=false),
- *     @OA\Property(property="name", type="string", example="Electrónica", description="Nombre de la categoría", nullable=false)
+ *     @OA\Property(property="id", type="integer", example=1, description="ID único de la categoría"),
+ *     @OA\Property(property="name", type="string", example="Electrónica", description="Nombre de la categoría")
  * )
  */
 class CategoryResource extends JsonResource
