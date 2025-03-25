@@ -1,14 +1,18 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "DC API",
-        "description": "api documentation",
+        "title": "Título de tu API",
+        "description": "Descripción de la API",
         "version": "1.0.0"
     },
     "servers": [
         {
             "url": "http://127.0.0.1:8000",
-            "description": "Servidor local"
+            "description": "Local"
+        },
+        {
+            "url": "https://api-datacode.zerogroups.uk",
+            "description": "Producción"
         }
     ],
     "paths": {
@@ -476,12 +480,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -566,12 +565,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         },
         "/api/categories/{id}": {
@@ -621,12 +615,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             },
             "delete": {
                 "tags": [
@@ -696,12 +685,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             },
             "patch": {
                 "tags": [
@@ -811,12 +795,7 @@
                             }
                         }
                     }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
+                }
             }
         }
     },
@@ -853,14 +832,6 @@
                     }
                 },
                 "type": "object"
-            }
-        },
-        "securitySchemes": {
-            "sanctum": {
-                "type": "apiKey",
-                "description": "Enter token in format (Bearer <token>)",
-                "name": "Authorization",
-                "in": "header"
             }
         }
     },

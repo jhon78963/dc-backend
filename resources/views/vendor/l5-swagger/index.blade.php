@@ -140,7 +140,7 @@
             oauth2RedirectUrl: "{{ route('l5-swagger.'.$documentation.'.oauth2_callback', [], $useAbsolutePath) }}",
 
             requestInterceptor: function(request) {
-                request.headers['Content-Type'] = 'application/json';
+                request.headers['X-CSRF-TOKEN'] = '{{ csrf_token() }}';
                 return request;
             },
 
