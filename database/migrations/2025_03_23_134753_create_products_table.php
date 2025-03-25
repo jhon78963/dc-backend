@@ -40,9 +40,9 @@ return new class extends Migration
             //$table->string('internal_code', 100)->nullable();  
             $table->longText('barcode_path')->nullable(); 
             
-            $table->decimal('sale_price', 16, 2)->unsigned(); 
+            $table->decimal('sale_price', 16, 4)->unsigned(); 
             $table->decimal('purchase_price', 16, 4)->unsigned();  
-            $table->decimal('minimum_stock', 20, 2)->unsigned(); 
+            $table->decimal('minimum_stock', 16, 4)->unsigned(); 
 
             $table->timestamps();
         });

@@ -13,6 +13,9 @@ class MeasurementUnitSeeder extends Seeder
      */
     public function run(): void
     {
+        //====== UNITY PRIMARY ======
+        //=====> ID 54 
+        
         $units = [
             ['name' => 'BOBINAS', 'symbol' => '4A'],
             ['name' => 'BALDE', 'symbol' => 'BJ'],
@@ -67,7 +70,7 @@ class MeasurementUnitSeeder extends Seeder
             ['name' => 'TANQUE', 'symbol' => 'TK'],
             ['name' => 'TONELADA', 'symbol' => 'TNE'],
             ['name' => 'TUBOS', 'symbol' => 'TU'],
-            ['name' => 'UNIDAD', 'symbol' => 'NIU'],
+            ['name' => 'UNIDAD', 'symbol' => 'NIU'], //======== ID 54 =========
             ['name' => 'YARDA', 'symbol' => 'YRD'],
             ['name' => 'GRAMO NETO', 'symbol' => 'GRN'],
             ['name' => 'KILOGRAMO NETO', 'symbol' => 'KGN'],
