@@ -21,6 +21,11 @@ use Illuminate\Support\Facades\DB;
  *     name="Categorías",
  *     description="Endpoints relacionados con categorías."
  * )
+ * @OA\SecurityScheme(
+ *      securityScheme="sanctum",
+ *      type="http",
+ *      scheme="bearer"
+ * )
  */
 class CategoryController extends Controller
 {
@@ -42,6 +47,7 @@ class CategoryController extends Controller
  *     summary="Crear una nueva categoría",
  *     description="Crea una nueva categoría con los datos proporcionados.",
  *     operationId="createCategory",
+ *     security={{"sanctum":{}}},
  *     tags={"Categorías"},
  *     @OA\RequestBody(
  *         required=true,
@@ -84,11 +90,11 @@ class CategoryController extends Controller
     {
         DB::beginTransaction();
         try {
-         
+
             $newCategory = $this->prepareNewCategoryData(
                 $request->validated(),
             );
-            
+
             $this->categoryService->create($newCategory);
 
             DB::commit();
@@ -106,6 +112,7 @@ class CategoryController extends Controller
  *     summary="Eliminar una categoría",
  *     description="Elimina una categoría por su ID.",
  *     operationId="deleteCategory",
+ *     security={{"sanctum":{}}},
  *     tags={"Categorías"},
  *     @OA\Parameter(
  *         name="id",
@@ -145,7 +152,7 @@ class CategoryController extends Controller
             $this->categoryService->delete($categoryValidated);
             DB::commit();
             return response()->json(['message' => 'Category deleted.'],200);
-        }catch (ModelNotFoundException $e) { 
+        }catch (ModelNotFoundException $e) {
             DB::rollback();
             return response()->json(['error' => $e->getMessage()], 404);
         }catch (\Exception $e) {
@@ -161,6 +168,7 @@ class CategoryController extends Controller
  *     summary="Obtener una categoría",
  *     description="Obtiene los detalles de una categoría específica por su ID.",
  *     operationId="getCategory",
+ *     security={{"sanctum":{}}},
  *     tags={"Categorías"},
  *     @OA\Parameter(
  *         name="id",
@@ -203,6 +211,7 @@ class CategoryController extends Controller
  *     summary="Obtener todas las categorías",
  *     description="Devuelve una lista paginada de todas las categorías.",
  *     operationId="getAllCategories",
+ *     security={{"sanctum":{}}},
  *     tags={"Categorías"},
  *     @OA\Parameter(
  *         name="page",
@@ -261,6 +270,7 @@ class CategoryController extends Controller
  *     summary="Actualizar parcialmente una categoría",
  *     description="Permite actualizar uno o más campos de una categoría existente.",
  *     operationId="updateCategory",
+ *     security={{"sanctum":{}}},
  *     tags={"Categorías"},
  *     @OA\Parameter(
  *         name="id",
