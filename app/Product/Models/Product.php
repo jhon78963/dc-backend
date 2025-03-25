@@ -24,11 +24,11 @@ class Product extends Model
         'measurement_unit_name', 
         'name',                   
         'barcode',               
-        //'internal_code',      
         'barcode_path',          
         'sale_price',             
         'purchase_price',       
-        'minimum_stock',       
+        'minimum_stock',  
+        //'internal_code',      
     ];
     
 

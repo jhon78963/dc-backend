@@ -21,16 +21,23 @@ use Illuminate\Support\Facades\Hash;
 
 /**
  * @OA\Info(
- *     title="DC API",
+ *     title="API DC",
  *     version="1.0.0",
- *     description="api documentation"
+ *     description="Endpoints"
  * )
  *
  * @OA\Server(
  *     url="http://127.0.0.1:8000",
  *     description="Servidor local"
  * )
+ *
+ *  @OA\Tag(
+ *     name="Marcas",
+ *     description="Endpoints relacionados con marcas"
+ * )
  */
+
+
 class BrandController extends Controller
 {
     protected SharedService $sharedService;
