@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "Título de tu API",
-        "description": "Descripción de la API",
+        "title": "API DC",
+        "description": "Endpoints",
         "version": "1.0.0"
     },
     "servers": [
@@ -610,6 +610,22 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ocurrió un error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -793,6 +809,669 @@
                     }
                 }
             }
+        },
+        "/api/measurement_units": {
+            "get": {
+                "tags": [
+                    "Unidades de medida"
+                ],
+                "summary": "Obtener todas las unidades de medida",
+                "description": "Devuelve una lista paginada de todas las unidades de medida.",
+                "operationId": "getAllMeasurementUnits",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de unidades de medida por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de unidades de medida obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MeasurementUnitResource"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 50
+                                        },
+                                        "pages": {
+                                            "type": "integer",
+                                            "example": 5
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al obtener unidades de medida."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener todos los productos",
+                "description": "Obtiene una lista paginada de todos los productos.",
+                "operationId": "getAllProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página para la paginación",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de productos por página",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/ProductResource"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "pages": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al obtener la lista de productos."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "description": "Crea un nuevo producto con los datos proporcionados.",
+                "operationId": "createProduct",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "id",
+                                    "brand_id",
+                                    "category_id",
+                                    "measurement_unit_id",
+                                    "name",
+                                    "sale_price",
+                                    "purchase_price",
+                                    "minimum_stock"
+                                ],
+                                "properties": {
+                                    "id": {
+                                        "type": "integer",
+                                        "example": 101
+                                    },
+                                    "brand_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "measurement_unit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "measurement_unit_name": {
+                                        "type": "string",
+                                        "example": "Unidad"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Laptop Gamer"
+                                    },
+                                    "barcode": {
+                                        "type": "string",
+                                        "example": "1234567890123"
+                                    },
+                                    "barcode_path": {
+                                        "type": "string",
+                                        "example": "/images/barcodes/1234567890123.png"
+                                    },
+                                    "sale_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1499.99
+                                    },
+                                    "purchase_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1200.5
+                                    },
+                                    "minimum_stock": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product created."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "brand_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El ID de la marca es obligatorio."
+                                                    }
+                                                },
+                                                "category_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El ID de la categoría es obligatorio."
+                                                    }
+                                                },
+                                                "measurement_unit_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El ID de la unidad de medida es obligatorio."
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El nombre del producto es obligatorio."
+                                                    }
+                                                },
+                                                "sale_price": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El precio de venta es obligatorio."
+                                                    }
+                                                },
+                                                "purchase_price": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El precio de compra es obligatorio."
+                                                    }
+                                                },
+                                                "minimum_stock": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El stock mínimo es obligatorio."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al crear el producto."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Obtener un producto",
+                "description": "Obtiene los detalles de un producto específico por su ID.",
+                "operationId": "getProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a obtener",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 101
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del producto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al obtener el producto."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "description": "Elimina un producto existente por su ID.",
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 101
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product deleted."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al eliminar el producto."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "description": "Actualiza los datos de un producto existente por su ID.",
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del producto a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 101
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "brand_id",
+                                    "category_id",
+                                    "measurement_unit_id",
+                                    "name",
+                                    "sale_price",
+                                    "purchase_price",
+                                    "minimum_stock"
+                                ],
+                                "properties": {
+                                    "brand_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "category_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "measurement_unit_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "measurement_unit_name": {
+                                        "type": "string",
+                                        "example": "Unidad"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Laptop Gamer"
+                                    },
+                                    "barcode": {
+                                        "type": "string",
+                                        "example": "1234567890123"
+                                    },
+                                    "barcode_path": {
+                                        "type": "string",
+                                        "example": "/images/barcodes/1234567890123.png"
+                                    },
+                                    "sale_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1499.99
+                                    },
+                                    "purchase_price": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 1200.5
+                                    },
+                                    "minimum_stock": {
+                                        "type": "integer",
+                                        "example": 5
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Product updated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "brand_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo brand_id es obligatorio."
+                                                    }
+                                                },
+                                                "category_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo category_id es obligatorio."
+                                                    }
+                                                },
+                                                "measurement_unit_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo measurement_unit_id es obligatorio."
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo name es obligatorio."
+                                                    }
+                                                },
+                                                "sale_price": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo sale_price es obligatorio."
+                                                    }
+                                                },
+                                                "purchase_price": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo purchase_price es obligatorio."
+                                                    }
+                                                },
+                                                "minimum_stock": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "El campo minimum_stock es obligatorio."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Producto no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Producto no encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado al actualizar el producto."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -803,11 +1482,13 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "example": 1
+                        "example": 1,
+                        "nullable": false
                     },
                     "name": {
                         "type": "string",
-                        "example": "Nike"
+                        "example": "Nike",
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -819,12 +1500,107 @@
                     "id": {
                         "description": "ID único de la categoría",
                         "type": "integer",
-                        "example": 1
+                        "example": 1,
+                        "nullable": false
                     },
                     "name": {
                         "description": "Nombre de la categoría",
                         "type": "string",
-                        "example": "Electrónica"
+                        "example": "Electrónica",
+                        "nullable": false
+                    }
+                },
+                "type": "object"
+            },
+            "MeasurementUnitResource": {
+                "title": "Measurement Unit Resource",
+                "description": "Estructura de datos de una unidad de medida",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Kilogramo"
+                    },
+                    "symbol": {
+                        "type": "string",
+                        "example": "kg"
+                    }
+                },
+                "type": "object"
+            },
+            "ProductResource": {
+                "title": "Product Resource",
+                "description": "Estructura del recurso de un producto",
+                "required": [
+                    "id",
+                    "brand_id",
+                    "category_id",
+                    "measurement_unit_id",
+                    "name",
+                    "sale_price",
+                    "purchase_price",
+                    "minimum_stock"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 101,
+                        "nullable": false
+                    },
+                    "brand_id": {
+                        "type": "integer",
+                        "example": 5,
+                        "nullable": false
+                    },
+                    "category_id": {
+                        "type": "integer",
+                        "example": 2,
+                        "nullable": false
+                    },
+                    "measurement_unit_id": {
+                        "type": "integer",
+                        "example": 1,
+                        "nullable": false
+                    },
+                    "measurement_unit_name": {
+                        "type": "string",
+                        "example": "Unidad",
+                        "nullable": false
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Laptop Gamer",
+                        "nullable": false
+                    },
+                    "barcode": {
+                        "type": "string",
+                        "example": "1234567890123",
+                        "nullable": true
+                    },
+                    "barcode_path": {
+                        "type": "string",
+                        "example": "/images/barcodes/1234567890123.png",
+                        "nullable": true
+                    },
+                    "sale_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1499.99,
+                        "nullable": false
+                    },
+                    "purchase_price": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 1200.5,
+                        "nullable": false
+                    },
+                    "minimum_stock": {
+                        "type": "integer",
+                        "example": 5,
+                        "nullable": false
                     }
                 },
                 "type": "object"
@@ -833,12 +1609,20 @@
     },
     "tags": [
         {
+            "name": "Marcas",
+            "description": "Endpoints relacionados con marcas"
+        },
+        {
             "name": "Categorías",
             "description": "Endpoints relacionados con categorías."
         },
         {
-            "name": "Marcas",
-            "description": "Marcas"
+            "name": "Unidades de medida",
+            "description": "Endpoints relacionados con unidades de medida."
+        },
+        {
+            "name": "Productos",
+            "description": "Endpoints relacionados con productos."
         }
     ]
 }
