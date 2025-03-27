@@ -57,6 +57,9 @@ return [
                     base_path('app/Product/Controllers'),
                     base_path('app/Product/Resources'),
 
+                    base_path('app/Warehouse/Controllers'),
+                    base_path('app/Warehouse/Resources'),
+
                 ],
             ],
         ],

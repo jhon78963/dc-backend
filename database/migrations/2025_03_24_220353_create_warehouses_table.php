@@ -24,8 +24,8 @@ return new class extends Migration
             $table->datetime('deletion_time')->nullable();
 
             $table->string('name', 120);
-            $table->string('ubicacion',120);
-            $table->enum('tipo', ['PRINCIPAL', 'SECUNDARIO']);
+            $table->string('location',120);
+            $table->enum('type', ['PRINCIPAL', 'SECUNDARIO']);
 
             $table->timestamps();
         });

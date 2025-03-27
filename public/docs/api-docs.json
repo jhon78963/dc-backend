@@ -8,11 +8,7 @@
     "servers": [
         {
             "url": "http://127.0.0.1:8000",
-            "description": "Local"
-        },
-        {
-            "url": "https://api-datacode.zerogroups.uk",
-            "description": "Producción"
+            "description": "Servidor local"
         }
     ],
     "paths": {
@@ -814,7 +810,7 @@
                 }
             }
         },
-        "/api/measurement_units": {
+        "/api/measurement-units": {
             "get": {
                 "tags": [
                     "Unidades de medida"
@@ -1476,6 +1472,452 @@
                     }
                 }
             }
+        },
+        "/warehouses": {
+            "get": {
+                "tags": [
+                    "Almacenes"
+                ],
+                "summary": "Obtener la lista de almacenes",
+                "description": "Retorna una lista paginada de almacenes, con opciones de filtrado y ordenamiento.",
+                "operationId": "d6e16df38ce0bb63fb502063cbeba261",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Número de página para la paginación",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Cantidad de elementos por página",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "sort_by",
+                        "in": "query",
+                        "description": "Campo por el cual ordenar",
+                        "schema": {
+                            "type": "string",
+                            "example": "name"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "Orden de clasificación (ascendente o descendente)",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ],
+                            "example": "asc"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de almacenes paginada.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/WarehouseResource"
+                                            }
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 100
+                                        },
+                                        "pages": {
+                                            "type": "integer",
+                                            "example": 10
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Almacenes"
+                ],
+                "summary": "Crear un nuevo almacén",
+                "description": "Crea un nuevo almacén en la base de datos.",
+                "operationId": "5904f06e9b4f7a98fec7e8dd6e7b9e85",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "ALMACÉN CENTRAL"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "AV. PERÚ 123"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "PRINCIPAL",
+                                            "SECUNDARIO"
+                                        ],
+                                        "example": "PRINCIPAL"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Warehouse created.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Warehouse created."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "El nombre del almacén es obligatorio."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/warehouses/{id}": {
+            "get": {
+                "tags": [
+                    "Almacenes"
+                ],
+                "summary": "Obtener información de un almacén",
+                "description": "Retorna los detalles de un almacén específico basado en su ID.",
+                "operationId": "817fbf7c0d777c925a44b08235f6c077",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del almacén a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles del almacén.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WarehouseResource"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Warehouse not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Warehouse] 1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Almacenes"
+                ],
+                "summary": "Eliminar un almacén",
+                "description": "Marca un almacén como eliminado en la base de datos.",
+                "operationId": "34a15409dc0fd6b2d27c58cce9aaee7c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del almacén a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Warehouse deleted.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Warehouse deleted."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Warehouse not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Warehouse] 1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Almacenes"
+                ],
+                "summary": "Actualizar un almacén",
+                "description": "Actualiza la información de un almacén existente basado en su ID.",
+                "operationId": "cde70f8a7241009c9f533a6b8cff4a79",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del almacén a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location",
+                                    "type"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "ALMACÉN ACTUALIZADO"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "AV. PERÚ 456"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "PRINCIPAL",
+                                            "SECUNDARIO"
+                                        ],
+                                        "example": "PRINCIPAL"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Almacén actualizado correctamente.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Warehouse updated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud incorrecta debido a errores de validación.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error de validación."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Almacén no encontrado.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Warehouse] 1"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error inesperado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -1608,6 +2050,55 @@
                     }
                 },
                 "type": "object"
+            },
+            "WarehouseResource": {
+                "title": "Warehouse Resource",
+                "description": "Recurso que representa un almacén. Nota: Solo puede existir un almacén de tipo PRINCIPAL donde is_deleted sea false.",
+                "required": [
+                    "id",
+                    "name",
+                    "location",
+                    "type",
+                    "is_deleted"
+                ],
+                "properties": {
+                    "id": {
+                        "description": "ID único del almacén",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nombre del almacén",
+                        "type": "string",
+                        "example": "ALMACÉN CENTRAL"
+                    },
+                    "location": {
+                        "description": "Ubicación del almacén",
+                        "type": "string",
+                        "example": "AV. PERÚ 123"
+                    },
+                    "type": {
+                        "description": "Tipo de almacén",
+                        "type": "string",
+                        "enum": [
+                            "PRINCIPAL",
+                            "SECUNDARIO"
+                        ],
+                        "example": "PRINCIPAL"
+                    },
+                    "restrictions": {
+                        "description": "Restricciones para almacenes de tipo PRINCIPAL",
+                        "properties": {
+                            "max_principal_active": {
+                                "description": "Solo puede haber un almacén de tipo PRINCIPAL activo (is_deleted = false).",
+                                "type": "integer",
+                                "example": 1
+                            }
+                        },
+                        "type": "object"
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -1627,6 +2118,10 @@
         {
             "name": "Productos",
             "description": "Endpoints relacionados con productos."
+        },
+        {
+            "name": "Almacenes",
+            "description": "Endpoints relacionados con almacenes."
         }
     ]
 }

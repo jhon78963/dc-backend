@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Brand\Services;
+namespace App\Warehouse\Services;
 
-use App\Brand\Models\Brand;
 use App\Shared\Services\ModelService;
+use App\Warehouse\Models\Warehouse;
 
-class BrandService
+class WarehouseService
 {
 
     protected ModelService $modelService;
@@ -15,19 +15,19 @@ class BrandService
         $this->modelService = $modelService;
     }
 
-    public function create(array $newBrand): void
+    public function create(array $newWarehouse): void
     {
-        $this->modelService->create(new Brand(), $newBrand);
+        $this->modelService->create(new Warehouse(), $newWarehouse);
     }
 
-    public function delete(Brand $brand): void
+    public function delete(Warehouse $warehouse): void
     {
-        $this->modelService->delete($brand);
+        $this->modelService->delete($warehouse);
     }
 
-    public function update(Brand $brand, array $editBrand): void
+    public function update(Warehouse $warehouse, array $editWarehouse): void
     {
-        $this->modelService->update($brand, $editBrand);
+        $this->modelService->update($warehouse, $editWarehouse);
     }
 
     public function checkBrand( string $name): ?array
@@ -44,8 +44,8 @@ class BrandService
             ->exists();
     }
 
-    public function validate(Brand $brand, string $modelName): Brand
+    public function validate(Warehouse $warehouse, string $modelName): Warehouse
     {
-        return $this->modelService->validate($brand, $modelName);
+        return $this->modelService->validate($warehouse, $modelName);
     }
 }

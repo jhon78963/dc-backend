@@ -45,7 +45,7 @@ class MeasurementUnitController extends Controller
 
 /**
  * @OA\Get(
- *     path="/api/measurement_units",
+ *     path="/api/measurement-units",
  *     summary="Obtener todas las unidades de medida",
  *     description="Devuelve una lista paginada de todas las unidades de medida.",
  *     operationId="getAllMeasurementUnits",
